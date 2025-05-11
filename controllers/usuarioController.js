@@ -64,3 +64,16 @@ exports.loginUsuario = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.listUsuarios = async (req, res) => {
+try {
+        const usuarios = await Usuario.find(); // Obtener todos los usuarios
+        res.status(200).json({
+            message: "Lista de usuarios obtenida correctamente",
+            usuarios: usuarios
+        });
+    } catch (error) {
+        console.error("Error al listar usuarios:", error);
+        res.status(500).json({ message: "Error al obtener usuarios" });
+    }
+}

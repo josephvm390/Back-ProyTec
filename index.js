@@ -18,9 +18,9 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", (req, res)=> {
-    res.send("api funciona")
-})
+// app.use("/", (req, res)=> {
+//     res.send("api funciona")
+// })
 app.use("/api/usuario", require("./routes/usuario"));
 app.use("/api/suscritos", require("./routes/usuariosSuscritos"));
 

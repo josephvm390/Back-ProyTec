@@ -1,6 +1,7 @@
 const Usuario = require("../models/Usuario");
 const config = require("../config/global");
 const UsuariosSuscritos = require("../models/UsuariosSuscritos");
+const jwt = require("jsonwebtoken");
 
 
 exports.createUsuario = async (req, res) => {
@@ -30,11 +31,18 @@ exports.createUsuario = async (req, res) => {
             dni
         });
 
+        usuario.password = await usuario.encryptPassword(usuario.password);
         await usuario.save();
+
+        const token = jwt.sign({ id: usuario._id }, config.secret, {
+            expiresIn: 60 * 60 * 24, // 24 horas
+        });
 
         res.status(201).json({
             message: "Usuario creado exitosamente",
-            usuario: usuario
+            usuario: usuario,
+            auth: true,
+            token: token
         });
     } catch (error) {
         console.error(error);
@@ -45,29 +53,35 @@ exports.createUsuario = async (req, res) => {
 exports.loginUsuario = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const usuario = await Usuario.findOne({ email: email });
 
+        const usuario = await Usuario.findOne({ email: email });
         if (!usuario) {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
 
-        if (usuario.password !== password) {
+        const validContra = await usuario.validatePassword(password);
+        if (!validContra) {
             return res.status(404).json({ message: "Contraseña incorrecta" });
         }
+
+        const token = jwt.sign({ id: usuario._id }, config.secret, {
+            expiresIn: 60 * 60 * 24, // 24 horas
+        });
 
         res.status(200).json({
             message: "Inicio exitoso",
             usuario: usuario,
             auth: true,
+            token: token,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-exports.listUsuarios = async (req, res) => {
-try {
-        const usuarios = await Usuario.find(); // Obtener todos los usuarios
+exports.listUsuarios = async (req, res) => { //Api de prueba
+    try {
+        const usuarios = await Usuario.find();
         res.status(200).json({
             message: "Lista de usuarios obtenida correctamente",
             usuarios: usuarios

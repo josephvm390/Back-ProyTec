@@ -14,7 +14,6 @@ app.use(cors({
     methods: ["GET", "POST", "DELETE", "PUT"]
 }));
 
-// Middleware para parsear JSON y formularios
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

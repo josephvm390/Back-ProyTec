@@ -91,3 +91,22 @@ exports.listUsuarios = async (req, res) => { //Api de prueba
         res.status(500).json({ message: "Error al obtener usuarios" });
     }
 }
+
+exports.UserDetails = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        const user = await Usuario.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "Usuario no encontrado",
+            });
+        }
+
+        res.status(200).json(user); // Devuelve todo el documento completo
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Hubo un error");
+    }
+};

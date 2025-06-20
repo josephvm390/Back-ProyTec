@@ -1,0 +1,54 @@
+const Cita = require("../models/Cita");
+const config = require("../config/global");
+
+exports.crearCita = async (req, res) => {
+    try {
+        const { //colocado en forma de lista para mejor visualizacion de datos
+            modalidad,
+            direccion,
+            fecha,
+            hora,
+            nombre_doctor,
+            nombre_paciente,
+            apellido_paciente,
+            email,
+            celular_paciente
+        } = req.body;
+
+        // Crear nueva cita
+        const nuevaCita = new Cita({
+            modalidad,
+            direccion,
+            fecha,
+            hora,
+            nombre_doctor,
+            nombre_paciente,
+            apellido_paciente,
+            email,
+            celular_paciente
+        });
+
+        // Guardar en la base de datos
+        const citaGuardada = await nuevaCita.save();
+
+        res.status(201).json({
+            message: "Cita creada exitosamente",
+            cita: citaGuardada
+        });
+    } catch (error) {
+        console.error("Error al crear la cita:", error);
+        res.status(500).json({
+            message: "Ocurrió un error al crear la cita",
+            error: error.message
+        });
+    }
+};
+
+exports.obtenercitas = async (req, res) => {
+    try {
+        const citas = await Cita.find();
+        res.json(citas);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener citas' });
+    }
+};

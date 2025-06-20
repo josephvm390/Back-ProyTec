@@ -9,7 +9,8 @@ const Citas = new Schema({
     nombre_paciente: { type: String, required: true },
     apellido_paciente: { type: String, required: true },
     email: { type: String, required: true },
-    celular_paciente: { type: String, required: true }
+    celular_paciente: { type: String, required: true },
+    estado: {type: String, required: true}
 });
 
 module.exports = model("Cita", Citas);

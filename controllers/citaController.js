@@ -25,7 +25,8 @@ exports.crearCita = async (req, res) => {
             nombre_paciente,
             apellido_paciente,
             email,
-            celular_paciente
+            celular_paciente,
+            estado: "pendiente"
         });
 
         // Guardar en la base de datos
@@ -52,3 +53,21 @@ exports.obtenercitas = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener citas' });
     }
 };
+
+exports.obtenerCitaxCorreo = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        const citas = await Cita.find({ email });
+
+        if (citas.length === 0) {
+            return res.status(404).json({ message: "No se encontraron citas para este correo." });
+        }
+
+        res.json(citas);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener las citas por correo' });
+    }
+};
+
+

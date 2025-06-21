@@ -60,11 +60,8 @@ exports.obtenerCitaxCorreo = async (req, res) => {
 
         const citas = await Cita.find({ email });
 
-        if (citas.length === 0) {
-            return res.status(404).json({ message: "No se encontraron citas para este correo." });
-        }
-
-        res.json(citas);
+        res.status(200).json(citas);
+        
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener las citas por correo' });
     }

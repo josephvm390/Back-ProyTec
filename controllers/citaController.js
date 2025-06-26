@@ -67,4 +67,30 @@ exports.obtenerCitaxCorreo = async (req, res) => {
     }
 };
 
+exports.editarCita = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const datosActualizados = req.body;
+
+        const citaActualizada = await Cita.findByIdAndUpdate(
+            id,
+            datosActualizados,
+            { new: true }
+        );
+
+        if (!citaActualizada) {
+            return res.status(404).json({ message: "Cita no encontrada" });
+        }
+
+        res.status(200).json({
+            message: "Cita actualizada exitosamente",
+            cita: citaActualizada
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error al actualizar la cita",
+            error: error.message
+        });
+    }
+};
 

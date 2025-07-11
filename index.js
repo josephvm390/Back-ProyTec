@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/usuario", require("./routes/usuario"));
 app.use("/api/suscritos", require("./routes/usuariosSuscritos"));
 app.use("/api/citas", require("./routes/cita"));
+app.use("/api/doctores", require("./routes/doctores"));
 
 app.listen(config.port, () =>
     console.log(`Servidor corriendo en http://localhost:${config.port}`)

@@ -6,5 +6,6 @@ router.post("/crearCita", citaController.crearCita);
 router.get("/obtenercitas", citaController.obtenercitas);
 router.get("/obtenerCitaxCorreo/:email", citaController.obtenerCitaxCorreo)
 router.put('/editarCita/:id', citaController.editarCita);
+router.get("/obtenerCitaxCorreoDoc/:correo", citaController.obtenerCitaxCorreoDoc)
 
 module.exports = router;

@@ -18,5 +18,6 @@ const upload = multer({ storage });
 
 router.post("/crearDoctor", upload.single("imagen"), doctoresController.crearDoctor);
 router.post("/loginDoctor", doctoresController.loginDoctor);
+router.get("/detallesDoctor/:correo", doctoresController.detallesDoctor);
 
 module.exports = router;

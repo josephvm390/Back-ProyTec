@@ -72,3 +72,23 @@ exports.loginDoctor = async (req, res) => {
         res.status(500).json({ message: "Error al iniciar sesión", error: error.message });
     }
 };
+
+exports.detallesDoctor = async (req, res) => {
+    try {
+        const { correo } = req.params;
+
+        const doctor = await Doctores.findOne({ correo });
+
+        if (!doctor) {
+            return res.status(404).json({
+                message: "Doctor no encontrado",
+            });
+        }
+
+        res.status(200).json(doctor); // Devuelve todo el documento del doctor
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Hubo un error");
+    }
+};
+

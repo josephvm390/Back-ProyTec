@@ -9,6 +9,7 @@ exports.crearCita = async (req, res) => {
             fecha,
             hora,
             nombre_doctor,
+            correo_doctor,
             nombre_paciente,
             apellido_paciente,
             email,
@@ -22,6 +23,7 @@ exports.crearCita = async (req, res) => {
             fecha,
             hora,
             nombre_doctor,
+            correo_doctor,
             nombre_paciente,
             apellido_paciente,
             email,
@@ -94,3 +96,15 @@ exports.editarCita = async (req, res) => {
     }
 };
 
+exports.obtenerCitaxCorreoDoc = async (req, res) => {
+    try {
+        const { correo } = req.params;
+
+        const citas = await Cita.find({ correo_doctor: correo });
+
+        res.status(200).json(citas);
+        
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener las citas por correo del doctor' });
+    }
+};

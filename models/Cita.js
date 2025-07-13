@@ -6,6 +6,7 @@ const Citas = new Schema({
     fecha: { type: Date, required: true },
     hora: { type: String, required: true },
     nombre_doctor: { type: String, required: true },
+    correo_doctor: { type: String, required: true },
     nombre_paciente: { type: String, required: true },
     apellido_paciente: { type: String, required: true },
     email: { type: String, required: true },

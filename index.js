@@ -2,6 +2,7 @@ const express = require("express");
 const conectarDB = require("./config/db");
 const cors = require("cors");
 const config = require("./config/global");
+const path = require("path");
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // app.use("/", (req, res)=> {
 //     res.send("api funciona")

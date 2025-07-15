@@ -86,6 +86,13 @@ exports.actulizarCita = async (req, res) => { //se agrego logica para poder real
             return res.status(404).json({ message: "Cita no encontrada" });
         }
 
+        const fechaFormateada = new Date(citaActualizada.fecha).toLocaleDateString('es-PE', {
+            weekday: 'long',
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        });
+
         // configuracion de nodemailer y se utiliza el .env
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -114,7 +121,7 @@ exports.actulizarCita = async (req, res) => { //se agrego logica para poder real
                 to: citaActualizada.email,
                 subject: 'Reprogramación de Cita',
                 text: `Buen dia ${citaActualizada.nombre_paciente},\n\n` +
-                    `Su cita ha sido reprogramada para el día ${citaActualizada.fecha} a las ${citaActualizada.hora}.\n` +
+                    `Su cita ha sido reprogramada para el día ${fechaFormateada} a las ${citaActualizada.hora}.\n` +
                     `Lo esperamos.\n\nGracias y que tenga buen día.`
             };
         }
